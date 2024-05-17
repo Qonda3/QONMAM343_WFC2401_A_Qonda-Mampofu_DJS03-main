@@ -104,13 +104,7 @@ document.querySelector('[data-settings-form]').addEventListener('submit', (event
     event.preventDefault()
     const formData = new FormData(event.target)
     const { theme } = Object.fromEntries(formData)
-
-    if (theme === 'night') {
-        handleThemeChange('night')
-    } else {
-        handleThemeChange('day')
-    }
-    
+    handleThemeChange(theme)
     document.querySelector('[data-settings-overlay]').open = false
 })
 

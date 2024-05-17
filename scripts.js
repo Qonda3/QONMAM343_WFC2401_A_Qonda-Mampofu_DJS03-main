@@ -55,26 +55,6 @@ function handleThemeChange(theme) {
     }
 }
 
-document.querySelector('[data-search-cancel]').addEventListener('click', () => {
-    document.querySelector('[data-search-overlay]').open = false
-})
-
-document.querySelector('[data-settings-cancel]').addEventListener('click', () => {
-    document.querySelector('[data-settings-overlay]').open = false
-})
-
-document.querySelector('[data-header-search]').addEventListener('click', () => {
-    document.querySelector('[data-search-overlay]').open = true 
-    document.querySelector('[data-search-title]').focus()
-})
-
-document.querySelector('[data-header-settings]').addEventListener('click', () => {
-    document.querySelector('[data-settings-overlay]').open = true 
-})
-
-document.querySelector('[data-list-close]').addEventListener('click', () => {
-    document.querySelector('[data-list-active]').open = false
-})
 
 document.querySelector('[data-settings-form]').addEventListener('submit', (event) => {
     event.preventDefault()
@@ -82,11 +62,9 @@ document.querySelector('[data-settings-form]').addEventListener('submit', (event
     const { theme } = Object.fromEntries(formData)
 
     if (theme === 'night') {
-        document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
-        document.documentElement.style.setProperty('--color-light', '10, 10, 20');
+        handleThemeChange('night')
     } else {
-        document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
-        document.documentElement.style.setProperty('--color-light', '255, 255, 255');
+        handleThemeChange('day')
     }
     
     document.querySelector('[data-settings-overlay]').open = false
@@ -201,5 +179,30 @@ function init() {
     <span>Show more</span>
     <span class="list__remaining"> (${(filteredBooks.length - (filteredBooks * BOOKS_PER_PAGE)) > 0 ? (filteredBooks.length - (currentPage * BOOKS_PER_PAGE)) : 0})</span>
 `
+    addEventListeners();
+}
+
+// Function to add event listeners
+function addEventListeners() {
+    document.querySelector('[data-search-cancel]').addEventListener('click', () => {
+        document.querySelector('[data-search-overlay]').open = false
+    })
+    
+    document.querySelector('[data-settings-cancel]').addEventListener('click', () => {
+        document.querySelector('[data-settings-overlay]').open = false
+    })
+    
+    document.querySelector('[data-header-search]').addEventListener('click', () => {
+        document.querySelector('[data-search-overlay]').open = true 
+        document.querySelector('[data-search-title]').focus()
+    })
+    
+    document.querySelector('[data-header-settings]').addEventListener('click', () => {
+        document.querySelector('[data-settings-overlay]').open = true 
+    })
+    
+    document.querySelector('[data-list-close]').addEventListener('click', () => {
+        document.querySelector('[data-list-active]').open = false
+    })
 }
 init();

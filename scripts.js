@@ -1,16 +1,16 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
 
-let page = 1;
-let matches = books
+let currentPage = 1;
+let filteredBooks = books;
 
-const starting = document.createDocumentFragment()
+const initialBookList = document.createDocumentFragment()
 
-for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
-    const element = document.createElement('button')
-    element.classList = 'preview'
-    element.setAttribute('data-preview', id)
+for (const { author, id, image, title } of filteredBooks.slice(0, BOOKS_PER_PAGE)) {
+    const bookElement = document.createElement('button')
+    bookElement.classList = 'preview'
+    bookElement.setAttribute('data-preview', id)
 
-    element.innerHTML = `
+    bookElement.innerHTML = `
         <img
             class="preview__image"
             src="${image}"
@@ -22,10 +22,10 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
         </div>
     `
 
-    starting.appendChild(element)
+    initialBookList.appendChild(bookElement)
 }
 
-document.querySelector('[data-list-items]').appendChild(starting)
+document.querySelector('[data-list-items]').appendChild(initialBookList)
 
 const genreHtml = document.createDocumentFragment()
 const firstGenreElement = document.createElement('option')
@@ -34,10 +34,10 @@ firstGenreElement.innerText = 'All Genres'
 genreHtml.appendChild(firstGenreElement)
 
 for (const [id, name] of Object.entries(genres)) {
-    const element = document.createElement('option')
-    element.value = id
-    element.innerText = name
-    genreHtml.appendChild(element)
+    const genreOptionElement = document.createElement('option')
+    genreOptionElement.value = id
+    genreOptionElement.innerText = name
+    genreHtml.appendChild(genreOptionElement)
 }
 
 document.querySelector('[data-search-genres]').appendChild(genreHtml)
@@ -49,10 +49,10 @@ firstAuthorElement.innerText = 'All Authors'
 authorsHtml.appendChild(firstAuthorElement)
 
 for (const [id, name] of Object.entries(authors)) {
-    const element = document.createElement('option')
-    element.value = id
-    element.innerText = name
-    authorsHtml.appendChild(element)
+    const authorOptionElement = document.createElement('option')
+    authorOptionElement.value = id
+    authorOptionElement.innerText = name
+    authorsHtml.appendChild(authorOptionElement)
 }
 
 document.querySelector('[data-search-authors]').appendChild(authorsHtml)
@@ -68,11 +68,11 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
 }
 
 document.querySelector('[data-list-button]').innerText = `Show more (${books.length - BOOKS_PER_PAGE})`
-document.querySelector('[data-list-button]').disabled = (matches.length - (page * BOOKS_PER_PAGE)) > 0
+document.querySelector('[data-list-button]').disabled = (filteredBooks.length - (currentPage * BOOKS_PER_PAGE)) > 0
 
 document.querySelector('[data-list-button]').innerHTML = `
     <span>Show more</span>
-    <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
+    <span class="list__remaining"> (${(filteredBooks.length - (filteredBooks * BOOKS_PER_PAGE)) > 0 ? (filteredBooks.length - (currentPage * BOOKS_PER_PAGE)) : 0})</span>
 `
 
 document.querySelector('[data-search-cancel]').addEventListener('click', () => {
@@ -135,8 +135,8 @@ document.querySelector('[data-search-form]').addEventListener('submit', (event) 
         }
     }
 
-    page = 1;
-    matches = result
+    currentPage = 1;
+    filteredBooks = result;
 
     if (result.length < 1) {
         document.querySelector('[data-list-message]').classList.add('list__message_show')
@@ -168,11 +168,11 @@ document.querySelector('[data-search-form]').addEventListener('submit', (event) 
     }
 
     document.querySelector('[data-list-items]').appendChild(newItems)
-    document.querySelector('[data-list-button]').disabled = (matches.length - (page * BOOKS_PER_PAGE)) < 1
+    document.querySelector('[data-list-button]').disabled = (filteredBooks.length - (currentPage * BOOKS_PER_PAGE)) < 1
 
     document.querySelector('[data-list-button]').innerHTML = `
         <span>Show more</span>
-        <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
+        <span class="list__remaining"> (${(filteredBooks.length - (currentPage * BOOKS_PER_PAGE)) > 0 ? (filteredBooks.length - (currentPage * BOOKS_PER_PAGE)) : 0})</span>
     `
 
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -182,7 +182,7 @@ document.querySelector('[data-search-form]').addEventListener('submit', (event) 
 document.querySelector('[data-list-button]').addEventListener('click', () => {
     const fragment = document.createDocumentFragment()
 
-    for (const { author, id, image, title } of matches.slice(page * BOOKS_PER_PAGE, (page + 1) * BOOKS_PER_PAGE)) {
+    for (const { author, id, image, title } of filteredBooks.slice(currentPage * BOOKS_PER_PAGE, (currentPage + 1) * BOOKS_PER_PAGE)) {
         const element = document.createElement('button')
         element.classList = 'preview'
         element.setAttribute('data-preview', id)
@@ -203,7 +203,7 @@ document.querySelector('[data-list-button]').addEventListener('click', () => {
     }
 
     document.querySelector('[data-list-items]').appendChild(fragment)
-    page += 1
+    currentPage += 1
 })
 
 document.querySelector('[data-list-items]').addEventListener('click', (event) => {

@@ -18,43 +18,31 @@ function createBookElement({ author, id, image, title }) {
     return bookElement;
 }
 
-const initialBookList = document.createDocumentFragment()
-
-for (const book of filteredBooks.slice(0, BOOKS_PER_PAGE)) {
-    initialBookList.appendChild(createBookElement(book))
+// Function to render a list of books
+function renderBookList(bookList) {
+    const initialBookList = document.createDocumentFragment()
+    for (const book of bookList) {
+        initialBookList.appendChild(createBookElement(book))
+    }
+    document.querySelector('[data-list-items]').appendChild(initialBookList)
 }
 
-document.querySelector('[data-list-items]').appendChild(initialBookList)
+// Function to create options for genres and authors
+function createOptionElements(data, defaultText) {
+    const fragment = document.createDocumentFragment();
+    const defaultOption = document.createElement('option');
+    defaultOption.value = 'any';
+    defaultOption.innerText = defaultText;
+    fragment.appendChild(defaultOption);
 
-const genreHtml = document.createDocumentFragment()
-const firstGenreElement = document.createElement('option')
-firstGenreElement.value = 'any'
-firstGenreElement.innerText = 'All Genres'
-genreHtml.appendChild(firstGenreElement)
-
-for (const [id, name] of Object.entries(genres)) {
-    const genreOptionElement = document.createElement('option')
-    genreOptionElement.value = id
-    genreOptionElement.innerText = name
-    genreHtml.appendChild(genreOptionElement)
+    for (const [id, name] of Object.entries(data)) {
+        const optionElement = document.createElement('option');
+        optionElement.value = id;
+        optionElement.innerText = name;
+        fragment.appendChild(optionElement);
+    }
+    return fragment;
 }
-
-document.querySelector('[data-search-genres]').appendChild(genreHtml)
-
-const authorsHtml = document.createDocumentFragment()
-const firstAuthorElement = document.createElement('option')
-firstAuthorElement.value = 'any'
-firstAuthorElement.innerText = 'All Authors'
-authorsHtml.appendChild(firstAuthorElement)
-
-for (const [id, name] of Object.entries(authors)) {
-    const authorOptionElement = document.createElement('option')
-    authorOptionElement.value = id
-    authorOptionElement.innerText = name
-    authorsHtml.appendChild(authorOptionElement)
-}
-
-document.querySelector('[data-search-authors]').appendChild(authorsHtml)
 
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     document.querySelector('[data-settings-theme]').value = 'night'
@@ -201,3 +189,10 @@ document.querySelector('[data-list-items]').addEventListener('click', (event) =>
         document.querySelector('[data-list-description]').innerText = active.description
     }
 })
+function init() {
+    renderBookList(filteredBooks.slice(0, BOOKS_PER_PAGE));
+    document.querySelector('[data-search-genres]').appendChild(createOptionElements(genres, 'All Genres'));
+    document.querySelector('[data-search-authors]').appendChild(createOptionElements(authors, 'All Authors'));
+
+}
+init();

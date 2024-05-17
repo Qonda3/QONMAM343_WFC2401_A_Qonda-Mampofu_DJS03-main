@@ -3,26 +3,25 @@ import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
 let currentPage = 1;
 let filteredBooks = books;
 
-const initialBookList = document.createDocumentFragment()
-
-for (const { author, id, image, title } of filteredBooks.slice(0, BOOKS_PER_PAGE)) {
-    const bookElement = document.createElement('button')
-    bookElement.classList = 'preview'
-    bookElement.setAttribute('data-preview', id)
-
+// Function to create an HTML element for a book
+function createBookElement({ author, id, image, title }) {
+    const bookElement = document.createElement('button');
+    bookElement.classList = 'preview';
+    bookElement.setAttribute('data-preview', id);
     bookElement.innerHTML = `
-        <img
-            class="preview__image"
-            src="${image}"
-        />
-        
+        <img class="preview__image" src="${image}" />
         <div class="preview__info">
             <h3 class="preview__title">${title}</h3>
             <div class="preview__author">${authors[author]}</div>
         </div>
-    `
+    `;
+    return bookElement;
+}
 
-    initialBookList.appendChild(bookElement)
+const initialBookList = document.createDocumentFragment()
+
+for (const book of filteredBooks.slice(0, BOOKS_PER_PAGE)) {
+    initialBookList.appendChild(createBookElement(book))
 }
 
 document.querySelector('[data-list-items]').appendChild(initialBookList)

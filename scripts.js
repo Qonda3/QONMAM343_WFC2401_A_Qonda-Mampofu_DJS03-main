@@ -1,19 +1,9 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js';
-import { createBookElement, renderBookList, createOptionElements } from './tasks.js';
+import { createBookElement, renderBookList, createOptionElements, handleThemeChange } from './tasks.js';
 
 let currentPage = 1;
 let filteredBooks = books;
 
-// Function to handle theme change
-function handleThemeChange(theme) {
-    if (theme === 'night') {
-        document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
-        document.documentElement.style.setProperty('--color-light', '10, 10, 20');
-    } else {
-        document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
-        document.documentElement.style.setProperty('--color-light', '255, 255, 255');
-    }
-}
 
 function init() {
     renderBookList(filteredBooks.slice(0, BOOKS_PER_PAGE));

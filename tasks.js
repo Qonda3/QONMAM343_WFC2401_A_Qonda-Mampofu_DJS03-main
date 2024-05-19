@@ -57,7 +57,10 @@ export function createOptionElements(data, defaultText) {
     return fragment;
 }
 
-// Function to handle theme change
+/**
+ * Handles the theme change for the application.
+ * @param {string} theme - The theme to apply ('day' or 'night').
+ */
 export function handleThemeChange(theme) {
     if (theme === 'night') {
         document.documentElement.style.setProperty('--color-dark', '255, 255, 255');

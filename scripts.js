@@ -100,7 +100,11 @@ function handleSearch(event) {
     document.querySelector('[data-search-overlay]').open = false;
 }
 
-// Function to handle book click
+
+/**
+ * Handles the search form submission.
+ * @param {Event} event - The form submission event.
+ */
 function handleBookClick(event) {
     const pathArray = Array.from(event.path || event.composedPath())
     let active = null

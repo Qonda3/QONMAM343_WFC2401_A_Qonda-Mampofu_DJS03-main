@@ -1,25 +1,8 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js';
-import { createBookElement, renderBookList } from './tasks.js';
+import { createBookElement, renderBookList, createOptionElements } from './tasks.js';
 
 let currentPage = 1;
 let filteredBooks = books;
-
-// Function to create options for genres and authors
-function createOptionElements(data, defaultText) {
-    const fragment = document.createDocumentFragment();
-    const defaultOption = document.createElement('option');
-    defaultOption.value = 'any';
-    defaultOption.innerText = defaultText;
-    fragment.appendChild(defaultOption);
-
-    for (const [id, name] of Object.entries(data)) {
-        const optionElement = document.createElement('option');
-        optionElement.value = id;
-        optionElement.innerText = name;
-        fragment.appendChild(optionElement);
-    }
-    return fragment;
-}
 
 // Function to handle theme change
 function handleThemeChange(theme) {

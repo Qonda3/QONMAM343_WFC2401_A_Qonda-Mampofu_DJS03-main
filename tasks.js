@@ -23,3 +23,20 @@ export function renderBookList(bookList) {
     }
     document.querySelector('[data-list-items]').appendChild(initialBookList);
 }
+
+// Function to create options for genres and authors
+export function createOptionElements(data, defaultText) {
+    const fragment = document.createDocumentFragment();
+    const defaultOption = document.createElement('option');
+    defaultOption.value = 'any';
+    defaultOption.innerText = defaultText;
+    fragment.appendChild(defaultOption);
+
+    for (const [id, name] of Object.entries(data)) {
+        const optionElement = document.createElement('option');
+        optionElement.value = id;
+        optionElement.innerText = name;
+        fragment.appendChild(optionElement);
+    }
+    return fragment;
+}

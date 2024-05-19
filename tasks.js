@@ -14,3 +14,12 @@ export function createBookElement({ author, id, image, title }) {
     `;
     return bookElement;
 }
+
+// Function to render a list of books
+export function renderBookList(bookList) {
+    const initialBookList = document.createDocumentFragment();
+    for (const book of bookList) {
+        initialBookList.appendChild(createBookElement(book));
+    }
+    document.querySelector('[data-list-items]').appendChild(initialBookList);
+}

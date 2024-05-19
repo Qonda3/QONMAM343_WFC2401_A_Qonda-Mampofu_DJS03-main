@@ -1,17 +1,8 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js';
-import { createBookElement } from './tasks.js';
+import { createBookElement, renderBookList } from './tasks.js';
 
 let currentPage = 1;
 let filteredBooks = books;
-
-// Function to render a list of books
-function renderBookList(bookList) {
-    const initialBookList = document.createDocumentFragment();
-    for (const book of bookList) {
-        initialBookList.appendChild(createBookElement(book));
-    }
-    document.querySelector('[data-list-items]').appendChild(initialBookList);
-}
 
 // Function to create options for genres and authors
 function createOptionElements(data, defaultText) {

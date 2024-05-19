@@ -23,7 +23,10 @@ export function createBookElement({ author, id, image, title }) {
     return bookElement;
 }
 
-// Function to render a list of books
+/**
+ * Renders a list of books.
+ * @param {Array<Object>} bookList - The list of books to render.
+ */
 export function renderBookList(bookList) {
     const initialBookList = document.createDocumentFragment();
     for (const book of bookList) {

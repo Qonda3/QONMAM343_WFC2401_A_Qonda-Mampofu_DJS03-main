@@ -1,6 +1,14 @@
+//tasks.js
 import { authors } from './data.js';
-
-// Function to create an HTML element for a book
+/**
+ * Creates an HTML button element representing a book.
+ * @param {Object} book - The book object.
+ * @param {string} book.author - The ID of the author.
+ * @param {string} book.id - The ID of the book.
+ * @param {string} book.image - The URL of the book's image.
+ * @param {string} book.title - The title of the book.
+ * @returns {HTMLButtonElement} The HTML button element representing the book.
+ */
 export function createBookElement({ author, id, image, title }) {
     const bookElement = document.createElement('button');
     bookElement.classList = 'preview';

@@ -35,7 +35,12 @@ export function renderBookList(bookList) {
     document.querySelector('[data-list-items]').appendChild(initialBookList);
 }
 
-// Function to create options for genres and authors
+/**
+ * Creates HTML option elements for genres or authors.
+ * @param {Object} data - The data object containing genres or authors.
+ * @param {string} defaultText - The default option text.
+ * @returns {DocumentFragment} The document fragment containing the option elements.
+ */
 export function createOptionElements(data, defaultText) {
     const fragment = document.createDocumentFragment();
     const defaultOption = document.createElement('option');
